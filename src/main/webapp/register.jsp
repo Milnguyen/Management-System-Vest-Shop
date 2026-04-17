@@ -12,13 +12,33 @@
 </head>
 <body>
 
-<h2>Register</h2>
+<h2>Create Account</h2>
 
 <form action="register" method="post">
-    Username: <input type="text" name="username"><br>
-    Password: <input type="password" name="password"><br>
-    <button type="submit">Register</button>
+    <table>
+        <tr>
+            <td>Username:</td>
+            <td><input type="text" name="username" required></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password" required></td>
+        </tr>
+        <tr>
+            <td>Confirm Password:</td>
+            <td><input type="password" name="confirm" required></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Register</button>
+            </td>
+        </tr>
+    </table>
 </form>
+
+<br>
+
+<a href="login.jsp">Back to Login</a>
 
 </body>
 </html>

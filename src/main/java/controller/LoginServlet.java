@@ -1,5 +1,6 @@
 package controller;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,24 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
-public class HelloServlet extends HttpServlet {
-    private String message;
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
 
-    public void init() {
-        message = "Hello World!";
-    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
+        String user = request.getParameter("username");
+        String pass = request.getParameter("password");
 
-        // Hello
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
-    }
-
-    public void destroy() {
+        if ("admin".equals(user) && "123".equals(pass)) {
+            response.sendRedirect("index.jsp");
+        } else {
+            response.getWriter().println("Login failed");
+        }
     }
 }
