@@ -5,51 +5,89 @@
   Time: 0:07
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Product" %>
 
+<%
+    List<Product> list = (List<Product>) request.getAttribute("list");
+%>
+
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Product List</title>
+    <title>Product Management</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<h2>Vest Products</h2>
+<div class="container mt-4">
 
-<a href="../index.jsp">Back Home</a>
+    <h2 class="mb-4"> Product Management</h2>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-    </tr>
+    <a href="product?action=add" class="btn btn-primary mb-3">+ Add Product</a>
 
-    <%
-        List<Product> list = (List<Product>) request.getAttribute("list");
-        if (list != null && !list.isEmpty()) {
-            for (Product p : list) {
-    %>
-    <tr>
-        <td><%= p.getId() %></td>
-        <td><%= p.getName() %></td>
-        <td><%= p.getPrice() %></td>
-        <td><%= p.getQuantity() %></td>
-    </tr>
-    <%
-        }
-    } else {
-    %>
-    <tr>
-        <td colspan="4">No products found</td>
-    </tr>
-    <%
-        }
-    %>
+    <table class="table table-bordered table-hover text-center align-middle">
 
-</table>
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Size</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <%
+            if (list != null && !list.isEmpty()) {
+                for (Product p : list) {
+        %>
+        <tr>
+            <td><%= p.getId() %></td>
+            <td><%= p.getName() %></td>
+            <td>VND<%= p.getPrice() %></td>
+            <td><%= p.getQuantity() %></td>
+            <td><%= p.getSize() %></td>
+
+            <td>
+                <!-- ✏️ EDIT -->
+                <form action="product" method="get" style="display:inline;">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="id" value="<%= p.getId() %>">
+                    <button class="btn btn-warning btn-sm">Edit</button>
+                </form>
+
+                <!-- 🗑 DELETE -->
+                <form action="product?action=delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="<%= p.getId() %>">
+                    <button class="btn btn-danger btn-sm"
+                            onclick="return confirm('Delete this product?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <%
+            }
+        } else {
+        %>
+        <tr>
+            <td colspan="6">No products found</td>
+        </tr>
+        <%
+            }
+        %>
+
+        </tbody>
+    </table>
+
+</div>
 
 </body>
 </html>
